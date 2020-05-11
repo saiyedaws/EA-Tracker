@@ -24,7 +24,7 @@ docker-machine ip default
 Curl
 
 curl -X POST \
-  http://192.168.99.100:8080/v1/models/ebayOCR:predict \
+  http://localhost:8501/v1/models/resnet:predict \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
   -d '{
@@ -37,7 +37,7 @@ curl -X POST \
 ------------------
 
 curl -X POST \
-  http://192.168.99.100:8501/v1/models/resnet:predict \
+  http://localhost:8501/v1/models/resnet:predict \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
   -d '{

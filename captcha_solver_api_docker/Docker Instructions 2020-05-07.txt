@@ -3,8 +3,31 @@ Linux Installation:
 
 Installing EbayTracker(With captcha Solving Model)
 
-git clone https://github.com/saiyedaws/EA-Tracker
+//Getting docker
+
+echo ubuntu  | sudo -S -k apt update
+echo ubuntu  | sudo -S -k apt install apt-transport-https ca-certificates curl software-properties-common -y
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce -y
+
 echo ubuntu  | sudo -S -k docker pull tensorflow/serving
+
+cd --
+cd Documents
+mkdir ChromeExtensions
+cd ChromeExtensions
+
+git clone https://github.com/saiyedaws/EA-Tracker
+
+
+
+
+
 
 
 sudo docker run -p 8501:8501 \
