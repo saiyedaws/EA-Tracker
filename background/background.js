@@ -229,7 +229,13 @@ function checkSKU(sku, quantity, itemNumber)
                             if(request.isPageCorrectlyOpened)
                             {
     
-                                if(request.isItemDeliveryExtended)
+
+                                var isItemDeliveryExtended = false;
+
+
+                                /*
+                                var isItemDeliveryExtended = request.isItemDeliveryExtended;
+                                if(isItemDeliveryExtended)
                                 {
                                     if(quantity > 0)
                                     {
@@ -242,14 +248,20 @@ function checkSKU(sku, quantity, itemNumber)
 
                                     }
                          
-                                }else
+                                } */
+                                
+
+
+
+                                if(!isItemDeliveryExtended)
                                 {
 
-                                        if(!request.isItemAvailable)
+                                    /*
+                                    if(!request.isItemAvailable)
                                     {
         
                                         console.log("Unavailable Message: "+sku+" :"+request.availabilityMessage);
-                                    } 
+                                    }*/
         
         
         
