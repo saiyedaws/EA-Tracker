@@ -1,0 +1,15 @@
+Linux Installation:
+------------
+
+Installing EbayTracker(With captcha Solving Model)
+
+git clone https://github.com/saiyedaws/EA-Tracker
+echo ubuntu  | sudo -S -k docker pull tensorflow/serving
+
+
+sudo docker run -p 8501:8501 \
+--mount type=bind,\source=/home/ubuntu/Documents/ChromeExtensions/EA-Tracker/captcha_solver_api_docker/resnet,target=/models/resnet \
+-e MODEL_NAME=resnet -t tensorflow/serving &
+
+
+

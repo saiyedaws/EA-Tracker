@@ -17,7 +17,7 @@ chrome.extension.onConnect.addListener(port => {
             {
                 var imgUrl = "https://images-na.ssl-images-amazon.com/captcha/bcxmjlko/Captcha_ftrsgxbmvh.jpg";
                 console.log("Captcha Solver Start");
-                enterSolvedCaptcha(imgUrl);
+                getSolvedCaptcha(imgUrl);
                 
 
             }
@@ -47,7 +47,7 @@ chrome.extension.onConnect.addListener(port => {
 
 
                     //var imgUrl = "https://images-na.ssl-images-amazon.com/captcha/bcxmjlko/Captcha_ftrsgxbmvh.jpg";
-                    enterSolvedCaptcha(request.captchaImgUrl);
+                    getSolvedCaptcha(request.captchaImgUrl);
                     
                 }
     
@@ -65,7 +65,7 @@ chrome.extension.onConnect.addListener(port => {
 
 
 
-async function enterSolvedCaptcha(imgUrl)
+async function getSolvedCaptcha(imgUrl)
 {
 
   console.log("Getting Solved Captcha")
