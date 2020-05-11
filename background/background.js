@@ -139,7 +139,12 @@ async function checkSKUList(list)
 
             page_items_count++;
             console.log('No Sku for: '+item.itemNumber);
-            await setItemQuantity(item.itemNumber, 0);
+
+            if(item.quantity > 0)
+            {
+                await setItemQuantity(item.itemNumber, 0);
+            }
+            
             
 
             continue;
