@@ -1,0 +1,20 @@
+FROM ubuntu:latest
+LABEL maintainer="Abdullah Khalid <awan.abdullah.khalid@gmail.com>"
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y \
+    zip \
+    unzip \
+    libxml2-dev \
+    apache2 \
+    vim \
+    nano \
+    php \
+    libapache2-mod-php \
+    php-xml \
+    curl \
+    git-core
+
+RUN cd / && git clone https://github.com/davidtsadler/ebay-sdk-examples.git \
+      && cd ebay-sdk-examples \
+      && curl -sS https://getcomposer.org/installer | php \
+      && php composer.phar install
