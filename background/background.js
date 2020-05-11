@@ -136,8 +136,12 @@ async function checkSKUList(list)
         //If item SkU has zero Chars
         if(!item.SKU.length) 
         {
-            //ebay_port.postMessage({ type: 'console_msg', msg: 'Item ' + (index + 1) + ' on page ' + ((pagination_offset / PAGE_ITEMS_COUNT) + 1) + ' hasn\'t SKU number'});
-            ebay_port.postMessage({ type: 'console_msg', msg: 'No Sku for: '+item.itemNumber});
+
+            page_items_count++;
+            console.log('No Sku for: '+item.itemNumber);
+            await setItemQuantity(item.itemNumber, 0);
+            
+
             continue;
         }
 
