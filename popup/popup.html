@@ -1,0 +1,59 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="popup.css">
+    </head>
+
+
+    <body>
+
+        <h1><span id="title">EbayTracker V2</span></h1>
+
+        <form id="main_form">
+            <button id="main_button">Start Tracking</button>
+            <h4><span class = "heading">Page Number To Start On</span> </h4>
+            <input type="text" placeholder="Enter Page Number" id="pgNumber" value = "1">
+        </form>
+
+
+        <h4>---------------------------------</h4>
+        <h4><span class = "heading">Enter a ItemNumber</span> </h4>
+  
+        <input type="text" placeholder="itemNumber..." id="itemNumber">
+
+
+        <form id="setQuantity_form">
+        
+            <h4><span class = "heading">Choose Quantity</span> </h4>
+            <select id="quantity">
+                <option value="1">1</option>
+                <option value="0">0</option>
+              </select>
+
+            <button id="setQuantity_button">Set Item Quantity</button>
+        </form>
+        
+
+        
+
+        <form id="checkSku_form">
+            <h4><span class = "heading">Checks on Amazon and Updates Item number</span> </h4>
+            <button id="checkSku_button">Check Item</button>
+        </form>
+
+        <h4>---------------------------------</h4>
+
+        <form id="amazon_form">
+            <h4><span class = "heading">Must be on amazon item page, to get information</span> </h4>
+            <button id="amazon_button">Check amazon Item</button>
+        </form>
+
+        <script src="popup.js"></script>
+
+    </body>
+
+
+
+</html>

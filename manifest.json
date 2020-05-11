@@ -1,0 +1,52 @@
+{
+    "manifest_version": 2,
+    "name": "Ebay Tracker V2 by DeviationGT",
+    "version": "0.1",
+    "permissions": [
+      "<all_urls>",
+      "tabs"
+    ],
+
+
+    "description": "Ebay Tracker with Amazon Source",
+    "icons": { "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+     "128": "icons/icon128.png" },
+   
+    "content_scripts": [
+      {
+        "matches": ["*://www.ebay.ca/sh/lst/*", "*://ebay.ca/sh/lst/*"],
+        "js": ["libraries/jquery.min.js", "ebay/ebay.js"],
+        "css": ["ebay/ebay.css"],
+        "run_at": "document_end"
+      },
+      {
+        "matches": ["*://amazon.ca/*", "*://*.amazon.ca/*", "*://amazon.com/*", "*://*.amazon.com/*"],
+        "js": ["libraries/jquery.min.js", "amazon/amazon.js"],
+        "run_at": "document_end"
+      },      {
+        "matches": ["*://amazon.ca/*", "*://*.amazon.ca/*", "*://amazon.com/*", "*://*.amazon.com/*"],
+        "js": ["libraries/jquery.min.js", "amazon/amazon_captcha.js"],
+        "run_at": "document_end"
+      },
+      {
+        "matches": ["*://offer.ebay.ca/ws/eBayISAPI.dll*"],
+        "js": ["libraries/jquery.min.js", "ebay/ebay_end_item.js"],
+        "run_at": "document_end"
+      },
+      {
+        "matches": ["*://signin.ebay.ca/ws/eBayISAPI.dll?*"],
+        "js": ["libraries/jquery.min.js", "ebay/ebay_sign_in.js"],
+        "run_at": "document_end"
+      }
+
+    ],
+    "browser_action": {
+      "default_popup": "popup/popup.html"
+      
+    },
+    "background": {
+      "scripts": ["background/background.js","background/background_test.js","background/background_api.js"],
+      "persistent": false
+    }
+  }
