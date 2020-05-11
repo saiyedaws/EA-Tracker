@@ -138,7 +138,7 @@ async function checkSKUList(list)
         {
 
             page_items_count++;
-            console.log('No Sku for: '+item.itemNumber);
+            console.log('Please Add SKU For ItemNumber: '+item.itemNumber);
 
             if(item.quantity > 0)
             {
@@ -228,9 +228,18 @@ function checkSKU(sku, quantity, itemNumber)
 
                             if(!request.isPageCorrectlyOpened)
                             {
-                                var errorMessage = "ERROR with ItemNumber: "+ itemNumber;
+                                var errorMessage = "Amazon SKU Didnt load, Please Check/Update SKU for ItemNumber: "+ itemNumber;
                                 console.log(errorMessage);
-                                resolve();
+
+                                new_quantity = 0;
+
+                                if(quantity > 0){
+                                    setItemQuantity(itemNumber, new_quantity).then(() => resolve());
+                                }else{
+                                    resolve();
+                                }
+                                
+                                
     
                             }
     
