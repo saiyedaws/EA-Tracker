@@ -1,16 +1,23 @@
 Linux Installation:
 ------------
 
-Installing EbayTracker(With captcha Solving Model)
+echo Installing EbayTracker(With captcha Solving Model)
 
-//Getting docker
+echo ubuntu  | sudo -S -k apt install git -y
+
+echo Getting docker
 
 echo ubuntu  | sudo -S -k apt update
 echo ubuntu  | sudo -S -k apt install apt-transport-https ca-certificates curl software-properties-common -y
 
-
+echo this code below doesnt work, need a fix
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - 
+
+echo ubuntu
+echo ubuntu
+echo ubuntu
+ 
 
 
 
@@ -18,8 +25,6 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt update
 apt-cache policy docker-ce
 sudo apt install docker-ce -y
-
-echo ubuntu  | sudo -S -k docker pull tensorflow/serving
 
 cd --
 cd Documents
@@ -33,13 +38,15 @@ cd Documents
 cd ChromeExtensions
 cd EA-Tracker
 cd captcha_solver_api_docker
-sudo mv -f resnet /home
+echo ubuntu  | sudo -S -k mv -f resnet /home
 
 
-sudo mv resnet /Desktop
 
-//Docker install tensorflow
+echo Docker install tensorflow
 
+
+
+echo ubuntu  | sudo -S -k docker pull tensorflow/serving
 
 
 sudo docker run -p 8501:8501 \
@@ -60,7 +67,7 @@ curl -X POST \
   }
 }'
 
-
+echo done installation
 
 ---------------
 
