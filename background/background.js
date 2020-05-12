@@ -195,7 +195,7 @@ function checkNextPage()
                 var minute = 60 * 1000;
     
     
-                console.log("Waiting 2 minutes");
+                console.log("Waiting 30 minutes");
                 setTimeout(() => 
                 {
                     startNextPage().then(() => resolve());
