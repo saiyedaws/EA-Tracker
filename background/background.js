@@ -84,39 +84,51 @@ chrome.extension.onConnect.addListener(port => {
 function startNextPage() {
     process_status = true;
 
+    return new Promise(resolve => 
+        {
 
-    setTimeout(() => {
-
-
-
-        page_items_count = 0;
-        pagination_offset += 50;
-    
-        // Closing previous tab
-          try{
-            chrome.tabs.remove(main_tab);
-            main_tab = null;
-          }catch(err){};
-    
-        
+            setTimeout(() => {
 
 
-            chrome.tabs.create({ url: 'https://www.ebay.ca/sh/lst/active?offset=' + pagination_offset + '&limit=50&sort=timeRemaining', active: false }, function(tab) {
 
-            // Saving ID of Ebay listing page tab
-            main_tab = tab.id;
-
-            // Defining of needed page inside a script
-            chrome.tabs.executeScript(main_tab, { code: 'let isWorkingPage = true;', runAt: 'document_end' });
-        });
+                page_items_count = 0;
+                pagination_offset += 50;
             
-       
-
+                // Closing previous tab
+                  try{
+                    chrome.tabs.remove(main_tab);
+                    main_tab = null;
+                  }catch(err){};
+            
+                
         
+        
+                    chrome.tabs.create({ url: 'https://www.ebay.ca/sh/lst/active?offset=' + pagination_offset + '&limit=50&sort=timeRemaining', active: false }, function(tab) {
+        
+                    // Saving ID of Ebay listing page tab
+                    main_tab = tab.id;
+        
+                    // Defining of needed page inside a script
+                    chrome.tabs.executeScript(main_tab, { code: 'let isWorkingPage = true;', runAt: 'document_end' });
+
+                    resolve();
+                });
+                    
+               
+        
+                
+        
+        
+        
+            }, 5000);
 
 
 
-    }, 5000);
+        });
+
+
+
+
 }
 
 
@@ -167,27 +179,43 @@ async function checkSKUList(list)
 
 
 
-async function checkNextPage()
+function checkNextPage()
 {
+    return new Promise(resolve => 
+        {
+
+
+            if(currentPageNumber === totalPageNumber)
+            {
+                console.log("On the Last Page!");
+                pagination_offset = -50;
+                page_items_count = 0;
     
-        if(currentPageNumber === totalPageNumber)
-        {
-            console.log("On the Last Page!");
-            pagination_offset = -50;
-            page_items_count = 0;
+    
+                var minute = 60 * 1000;
+    
+    
+                console.log("Waiting 2 minutes");
+                setTimeout(() => 
+                {
+                    startNextPage().then(() => resolve());
+                }, minute*30);
+                
+               
+    
+                
+    
+            }else if(page_items_count >= total_page_items)
+            {
+    
+                console.log("Starting Next Page");
+                startNextPage().then(() => resolve());
+            }
 
-  
-            startNextPage();
-           
 
-            
-
-        }else if(page_items_count >= total_page_items)
-        {
-
-            startNextPage();
-            
-        }
+    });
+    
+        
 
   
 

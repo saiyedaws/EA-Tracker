@@ -72,7 +72,7 @@ echo done installation
 ---------------
 
 
-Updating Chrome Extensions
+echo Updating Chrome Extensions
 
 cd --
 cd Documents
