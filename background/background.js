@@ -164,7 +164,7 @@ async function checkSKUList(list)
 
         await checkSKU(atob(item.SKU), item.quantity, item.itemNumber);
 
-        await checkToEndItemListing(item.itemNumber);
+        //await checkToEndItemListing(item.itemNumber);
 
         
         page_items_count++;
