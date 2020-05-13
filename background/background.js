@@ -298,7 +298,7 @@ function checkSKU(sku, quantity, itemNumber)
                                 
 
 
-
+                                //manuelly changed it to false with code above
                                 if(!isItemDeliveryExtended)
                                 {
 
