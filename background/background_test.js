@@ -1,8 +1,7 @@
 chrome.extension.onConnect.addListener(port => {
 
     // Checks the connection source
-    if(port.name === 'popup') 
-    {
+    if (port.name === 'popup') {
 
         popup_port = port;
 
@@ -10,17 +9,22 @@ chrome.extension.onConnect.addListener(port => {
         popup_port.onMessage.addListener(request => {
 
             // Checks the form submission
-            if(request.type === 'checkSkuWithItemNumber') 
-            {
+            if (request.type === 'checkSkuWithItemNumber') {
                 testCheckSku(request.itemNumber);
             }
 
 
             // Checks the form submission
-            if(request.type === 'setQuantityWithItemNumber') 
-            {
+            if (request.type === 'setQuantityWithItemNumber') {
                 console.log("Debug Mode");
                 testSetItemQuantity(request.itemNumber, request.quantity);
+            }
+
+            // Checks the form submission
+            if (request.type === 'from_popup' && request.command === "set_price_with_item_number") 
+            {
+                console.log("Debug Mode");
+                testSetPrice(request.itemNumber, request.price);
             }
 
 
@@ -28,7 +32,7 @@ chrome.extension.onConnect.addListener(port => {
 
         });
 
-        popup_port.onDisconnect.addListener(() => popup_port = null );
+        popup_port.onDisconnect.addListener(() => popup_port = null);
     }
 
 
@@ -37,78 +41,83 @@ chrome.extension.onConnect.addListener(port => {
 
 
 
-async function testCheckSku(itemNumber)
-{
+async function testCheckSku(itemNumber) {
 
 
 
     var item = await GetItemQuantityAndSku(itemNumber);
     console.log(item);
-    
-    await checkSKU(atob(item.SKU), item.quantity, item.itemNumber);
+
+    await checkSKU(item);
     console.log("checkSKU Resolved");
 
-    await checkToEndItemListing(item.SKU);
-    console.log("checkToEndItemListing Resolved");
 
 
 }
 
 
-async function testSetItemQuantity(testItemNumber, testQuantity)
+async function testSetItemQuantity(testItemNumber, testQuantity) 
 {
 
     await setItemQuantity(testItemNumber, testQuantity);
     console.log("setItemQuantity Resolved");
 
-    await checkToEndItemListing(testItemNumber);
-    console.log("checkToEndItemListing Resolved");
+
 }
 
 
-function GetItemQuantityAndSku(itemNumber) 
+
+async function testSetPrice(testItemNumber, testPrice) 
 {
+
+    await setItemPrice(testItemNumber, testPrice);
+    console.log("setItemPrice Resolved");
+
+
+}
+
+
+
+
+function GetItemQuantityAndSku(itemNumber) {
     var item;
 
-    return new Promise(resolve => 
-    {
+    return new Promise(resolve => {
 
         ebay_port.postMessage(
-            { 
-                type: 'getItemQuantityAndSku', 
+            {
+                type: 'getItemQuantityAndSku',
                 itemNumber: itemNumber
-        
+
             }
         );
 
 
 
-        ebay_port.onMessage.addListener(function ebayReceiveItemQuantityAndSkuRequest(request) 
-        {
+        ebay_port.onMessage.addListener(function ebayReceiveItemQuantityAndSkuRequest(request) {
 
 
-            if(request.type === 'sentItemQuantityAndSku' && request.itemNumber === itemNumber) 
-            {
+            if (request.type === 'sentItemQuantityAndSku' && request.itemNumber === itemNumber) {
                 ebay_port.onMessage.removeListener(ebayReceiveItemQuantityAndSkuRequest);
 
-                item = 
+                item =
                 {
                     itemNumber: request.itemNumber,
                     SKU: request.sku,
                     quantity: request.quantity
-        
+
                 }
 
                 resolve(item);
-                
-            }
-            
 
-           
+            }
+
+
+
         });
 
 
-        
+
     });
 
 

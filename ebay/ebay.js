@@ -32,6 +32,14 @@ bg_port.onMessage.addListener((request) =>
 
     }
 
+    if(request.type === 'from_background'&& request.command === "set_item_price") 
+    {
+        setItemPrice(request.itemNumber, request.price);
+
+    }
+
+
+
 
     if(request.type === 'getItemQuantityAndSku') 
     {
@@ -84,7 +92,8 @@ function getSKUsList() {
 
             SKU: $row.find('td[class*="listingSKU"]').find('.cell-wrapper').text(),
             quantity: parseInt($row.find('td[class*="availableQuantity"]').find('.cell-wrapper').text().replace(/[^0-9]/g, '')),
-            itemNumber: $row.find(".grid-row").attr("data-id")
+            itemNumber: $row.find(".grid-row").attr("data-id"),
+            price: parseFloat($row.find('td[class*="price"]').find('.cell-wrapper').text().replace(/[^0-9.]/g, ''))
         
         });
 
@@ -120,6 +129,21 @@ function setItemQuantity(itemNumber ,quantity)
 
 }
 
+
+function setItemPrice(itemNumber, price)
+{
+
+    setRowCellValue(itemNumber, 'price', price).then(() => 
+    {
+
+        var doesFailToEditAlertExist = checkForFailToEditAlert();
+
+        //bg_port.postMessage({ type: 'item_quantity_set', itemNumber: itemNumber, doesFailToEditAlertExist: doesFailToEditAlertExist  });
+        bg_port.postMessage({ type: 'item_price_set', itemNumber: itemNumber, doesFailToEditAlertExist: doesFailToEditAlertExist  });
+
+    });
+
+}
 
 
 function setRowCellValue(itemNumber, key, value) 

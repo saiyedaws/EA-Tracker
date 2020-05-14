@@ -16,27 +16,27 @@
     "content_scripts": [
       {
         "matches": ["*://www.ebay.ca/sh/lst/*", "*://ebay.ca/sh/lst/*"],
-        "js": ["libraries/jquery.min.js", "ebay/ebay.js"],
+        "js": ["libraries/jquery.min.js", "ebay/ebay.js","libraries/custom.js"],
         "css": ["ebay/ebay.css"],
         "run_at": "document_end"
       },
       {
         "matches": ["*://amazon.ca/*", "*://*.amazon.ca/*", "*://amazon.com/*", "*://*.amazon.com/*"],
-        "js": ["libraries/jquery.min.js", "amazon/amazon.js"],
+        "js": ["libraries/jquery.min.js", "amazon/amazon.js","libraries/custom.js"],
         "run_at": "document_end"
       },      {
         "matches": ["*://amazon.ca/*", "*://*.amazon.ca/*", "*://amazon.com/*", "*://*.amazon.com/*"],
-        "js": ["libraries/jquery.min.js", "amazon/amazon_captcha.js"],
+        "js": ["libraries/jquery.min.js", "amazon/amazon_captcha.js","libraries/custom.js"],
         "run_at": "document_end"
       },
       {
         "matches": ["*://offer.ebay.ca/ws/eBayISAPI.dll*"],
-        "js": ["libraries/jquery.min.js", "ebay/ebay_end_item.js"],
+        "js": ["libraries/jquery.min.js", "ebay/ebay_end_item.js","libraries/custom.js"],
         "run_at": "document_end"
       },
       {
         "matches": ["*://signin.ebay.ca/ws/eBayISAPI.dll?*"],
-        "js": ["libraries/jquery.min.js", "ebay/ebay_sign_in.js"],
+        "js": ["libraries/jquery.min.js", "ebay/ebay_sign_in.js","libraries/custom.js"],
         "run_at": "document_end"
       }
 
