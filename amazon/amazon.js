@@ -43,8 +43,11 @@ if (document.title === "Robot Check") {
 
 
 
-function scrapeAmazon() 
+async function scrapeAmazon() 
 {
+
+    await checkIfPriceExists();
+
 
     var amazonItemData =
     {
@@ -69,29 +72,86 @@ function scrapeAmazon()
 
     });
 
+
+
 }
+
+
+function checkIfPriceExists(){
+    return new Promise(resolve =>
+    {
+
+        try {
+            if(!IsItemAvailable())
+            {
+                resolve();
+            
+            }
+
+            if(IsItemAvailable())
+            {
+                var priceElement = getPriceElement();
+
+                priceString = priceElement.innerText.replace("CDN$ ","");
+            
+               
+
+                resolve();
+            
+            }
+        } catch (error) 
+        {
+            console.log(error);
+
+            setTimeout(() => {
+                location.reload();
+            }, 60000);
+            
+        }
+
+    });
+
+
+
+
+
+}
+
+function getPriceElement()
+{
+
+    var priceElement = 
+                document.getElementById("price_inside_buybox") ||
+                document.getElementById("newBuyBoxPrice") ||
+                document.getElementById("priceblock_ourprice") ||
+                document.getElementById("priceblock_saleprice") ||
+                document.getElementById("buyNewSection") ||
+                document.getElementById("buyNew_noncbb") ||
+                document.getElementById("priceblock_dealprice")
+                ;
+
+    return priceElement;
+
+}
+
 
 
 function getAmazonPrice()
 {
     var priceString = "-1";
 
-    if(IsItemAvailable())
-    {
-        var priceElement = 
-        document.getElementById("price_inside_buybox") ||
-        document.getElementById("newBuyBoxPrice") ||
-        document.getElementById("priceblock_ourprice") ||
-        document.getElementById("priceblock_saleprice") ||
-        document.getElementById("buyNewSection") ||
-        document.getElementById("buyNew_noncbb") 
-        //getElementByXPath(document.getElementById("olp-sl-new-openbox"), "//a[contains(., 'new')]").nextSibling.nextSibling
 
-        ;
-    
-        priceString = priceElement.innerText.replace("CDN$ ","");
-    
-    }
+            if(IsItemAvailable())
+        {
+            var priceElement = getPriceElement();
+
+            ;
+        
+            priceString = priceElement.innerText.replace("CDN$ ","");
+        
+        }
+   
+
 
   
 

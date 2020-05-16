@@ -101,23 +101,68 @@ function startNextPage() {
                 // Saving ID of Ebay listing page tab
                 main_tab = tab.id;
 
+
                 // Defining of needed page inside a script
                 chrome.tabs.executeScript(main_tab, { code: 'let isWorkingPage = true;', runAt: 'document_end' });
 
-                resolve();
+
             });
 
 
 
+            console.log("Starting listner for check page ");
+
+            let messageListener = request => {
+                chrome.runtime.onMessage.removeListener(messageListener);
+
+                if (request.type === 'from_ebay_list' && request.command === "fetched_data_proceed") {
+
+                    console.log("fetched_data_proceed ");
+                    resolve();
+                }
+
+                if (request.type === 'from_ebay_list' && request.command === "restart_ebay_page") {
+                    console.log("restart_ebay_page on BG");
+
+                    //close browser,
+                    chrome.tabs.remove(main_tab, () => {
+                        pagination_offset -= 50;
+
+                        startNextPage();
+                        resolve();
+
+
+                    });
+
+                }
+            };
+
+            chrome.runtime.onMessage.addListener(messageListener);
 
 
 
 
-        }, 5000);
 
 
 
-    });
+
+
+
+        }, 1000);
+
+
+
+
+
+
+
+
+
+    })
+
+
+
+
 
 
 

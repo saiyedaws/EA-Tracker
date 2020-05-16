@@ -9,8 +9,26 @@ var currentPageNumber = 0;
 
 if(typeof isWorkingPage !== 'undefined' && isWorkingPage)
 {
-    getCurrentPgNumber();
+    try 
+    {
+        getCurrentPgNumber();
+        chrome.runtime.sendMessage({ type: 'from_ebay_list', command: "fetched_data_proceed" });
+    // Send
+        sendDataToBackground();
+    } catch (error) 
+    {
+        console.log(error);
+        //send to background page their was error and then refresh with is working page
+        chrome.runtime.sendMessage({ type: 'from_ebay_list', command: "restart_ebay_page", error:error});
+    }
+    
 
+
+
+}
+
+function sendDataToBackground()
+{
     // Send
     var totalActiveListings = parseInt($("span.results-count").html().replace(/[^0-9]/g, ''));
     bg_port.postMessage({ type: 'total_active_listings', count: totalActiveListings });
@@ -18,10 +36,10 @@ if(typeof isWorkingPage !== 'undefined' && isWorkingPage)
 
 
     bg_port.postMessage({ type: 'pgNumber', totalPageNumber: totalPageNumber, currentPageNumber : currentPageNumber  });
-
-
-
 }
+
+
+
 
 bg_port.onMessage.addListener((request) => 
 {
@@ -190,7 +208,10 @@ function getCurrentPgNumber()
 {
     var pgNumberElement = document.getElementsByClassName("go-to-page")[0];
 
+
+   // currentPageNumber = pgNumberElement.getElementsByClassName("textbox__control1")[0].value;
     currentPageNumber = pgNumberElement.getElementsByClassName("textbox__control")[0].value
+
     totalPageNumber = pgNumberElement.getElementsByClassName("label")[0].innerText.replace(/\D/g, "");
 
 
