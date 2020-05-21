@@ -75,7 +75,8 @@ chrome.extension.onConnect.addListener(port => {
 
 
 
-function startNextPage() {
+function startNextPage() 
+{
     process_status = true;
 
     return new Promise(resolve => {

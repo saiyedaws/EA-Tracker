@@ -45,6 +45,7 @@ if (document.title === "Robot Check") {
 
 async function scrapeAmazon() 
 {
+    
 
     await checkIfPriceExists();
 
