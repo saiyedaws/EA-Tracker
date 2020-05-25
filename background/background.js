@@ -184,7 +184,7 @@ async function checkSKUList(list) {
         if (!item.SKU.length) {
 
             page_items_count++;
-            console.log('Please Add SKU For ItemNumber: ' + item.itemNumber);
+            console.log("ItemNumber "+item.itemNumber+': Please Add SKU');
 
             if (item.quantity > 0) {
                 await setItemQuantity(item.itemNumber, 0);
@@ -312,7 +312,7 @@ function checkSKU(item) {
                             var new_quantity = -1;
 
                             if (!amazonItemData.isPageCorrectlyOpened) {
-                                var errorMessage = "Amazon SKU Didnt load, Please Check/Update SKU for ItemNumber: " + itemNumber;
+                                var errorMessage = "ItemNumber "+itemNumber+ ": Amazon SKU Didnt load, Please Check/Update SKU";
                                 console.log(errorMessage);
 
                                 new_quantity = 0;
@@ -445,7 +445,7 @@ function setItemQuantity(itemNumber, quantity) {
             }
 
             if (request.doesFailToEditAlertExist) {
-                console.log("Failure Messages Exists");
+                console.log("ItemNumber "+itemNumber+": Failed to Update Quantity/Price, Please Delete/End Listing");
                 didItemFailToUpdate = true;
                 resolve();
 
@@ -483,7 +483,7 @@ function setItemPrice(itemNumber, price) {
             }
 
             if (request.doesFailToEditAlertExist) {
-                console.log("Failure Messages Exists");
+                console.log("itemNumber "+request.itemNumber+": Failure Messages Exists");
                 didItemFailToUpdate = true;
                 resolve();
 
