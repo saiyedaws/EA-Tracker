@@ -236,7 +236,7 @@ function checkNextPage() {
 
         } else if (page_items_count >= total_page_items) {
 
-            console.log("Starting Next Page");
+            //console.log("Starting Next Page");
             startNextPage().then(() => resolve());
         }
 
