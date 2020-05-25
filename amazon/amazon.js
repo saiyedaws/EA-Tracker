@@ -1,39 +1,67 @@
-let bg_port = chrome.runtime.connect({ name: "amazon" });
+setInterval(() => {
+    console.log("Time out!");
+    location.reload();
+}, 60000);
 
-if (document.title === "Robot Check") {
-    console.log("Robot Check Doc Found");
-
-    var captchaImgUrl = document.querySelectorAll(".a-text-center.a-row")[1].querySelectorAll("img")[0].getAttribute("src");
-    bg_port.postMessage({ type: 'amazon_captcha_found', captchaImgUrl: captchaImgUrl });
-
-
-    bg_port.onMessage.addListener((request) => {
-
-        if (request.type === 'amazon_captcha_solved') {
-            console.log("code: " + request.captchaKey)
-
-            var typeCaptchaTextBox = document.getElementById("captchacharacters");
-            typeCaptchaTextBox.value = request.captchaKey;
-
-            setTimeout(() => {
-                document.querySelectorAll('button[type="submit"]')[0].click();
-            }, 2000);
-
-
-        }
-
-
-
-    });
-
-
-
-
-
+if (/complete|interactive|loaded/.test(document.readyState)) {
+    // In case the document has finished parsing, document's readyState will
+    // be one of "complete", "interactive" or (non-standard) "loaded".
+    startPage();
 } else {
+    // The document is not ready yet, so wait for the DOMContentLoaded event
+    console.log("Page Not Ready Yet!");
 
-    
-    scrapeAmazon();
+    document.addEventListener('DOMContentLoaded', startPage, false);
+}
+
+
+
+
+
+
+
+
+
+
+
+function startPage() {
+    let bg_port = chrome.runtime.connect({ name: "amazon" });
+
+
+    if (document.title === "Robot Check") {
+        console.log("Robot Check Doc Found");
+
+        var captchaImgUrl = document.querySelectorAll(".a-text-center.a-row")[1].querySelectorAll("img")[0].getAttribute("src");
+        bg_port.postMessage({ type: 'amazon_captcha_found', captchaImgUrl: captchaImgUrl });
+
+
+        bg_port.onMessage.addListener((request) => {
+
+            if (request.type === 'amazon_captcha_solved') {
+                console.log("code: " + request.captchaKey)
+
+                var typeCaptchaTextBox = document.getElementById("captchacharacters");
+                typeCaptchaTextBox.value = request.captchaKey;
+
+                setTimeout(() => {
+                    document.querySelectorAll('button[type="submit"]')[0].click();
+                }, 2000);
+
+
+            }
+
+
+
+        });
+
+
+
+
+
+    } else {
+
+        scrapeAmazon();
+    }
 
 
 }
@@ -43,10 +71,18 @@ if (document.title === "Robot Check") {
 
 
 
-async function scrapeAmazon() 
-{
-    
 
+
+
+
+
+
+
+async function scrapeAmazon() {
+    //If scraping doesnt finish in 60 seconds, refresh page
+    console.log("Scrape Amazon begins");
+
+    //await waits for completion before next function starts
     await checkIfPriceExists();
 
 
@@ -66,9 +102,11 @@ async function scrapeAmazon()
     console.log(amazonItemData);
 
 
+    console.log("sending msg ot BG");
+
     chrome.runtime.sendMessage({
         type: 'from_amazon',
-        command:"fetched_data",
+        command: "fetched_data",
         amazonItemData: amazonItemData
 
     });
@@ -78,36 +116,34 @@ async function scrapeAmazon()
 }
 
 
-function checkIfPriceExists(){
-    return new Promise(resolve =>
-    {
+function checkIfPriceExists() {
+    return new Promise(resolve => {
 
+   
         try {
-            if(!IsItemAvailable())
+            if (!IsItemAvailable()) 
             {
+                
                 resolve();
-            
+
             }
 
-            if(IsItemAvailable())
-            {
+            if (IsItemAvailable()) {
                 var priceElement = getPriceElement();
 
-                priceString = priceElement.innerText.replace("CDN$ ","");
-            
-               
+                priceString = priceElement.innerText.replace("CDN$ ", "");
+
 
                 resolve();
-            
+
             }
-        } catch (error) 
-        {
-            console.log(error);
+        } catch (error) {
 
             setTimeout(() => {
+                console.log(error);
                 location.reload();
             }, 60000);
-            
+
         }
 
     });
@@ -118,18 +154,17 @@ function checkIfPriceExists(){
 
 }
 
-function getPriceElement()
-{
+function getPriceElement() {
 
-    var priceElement = 
-                document.getElementById("price_inside_buybox") ||
-                document.getElementById("newBuyBoxPrice") ||
-                document.getElementById("priceblock_ourprice") ||
-                document.getElementById("priceblock_saleprice") ||
-                document.getElementById("buyNewSection") ||
-                document.getElementById("buyNew_noncbb") ||
-                document.getElementById("priceblock_dealprice")
-                ;
+    var priceElement =
+        document.getElementById("price_inside_buybox") ||
+        document.getElementById("newBuyBoxPrice") ||
+        document.getElementById("priceblock_ourprice") ||
+        document.getElementById("priceblock_saleprice") ||
+        document.getElementById("buyNewSection") ||
+        document.getElementById("buyNew_noncbb") ||
+        document.getElementById("priceblock_dealprice")
+        ;
 
     return priceElement;
 
@@ -137,33 +172,31 @@ function getPriceElement()
 
 
 
-function getAmazonPrice()
-{
+function getAmazonPrice() {
     var priceString = "-1";
 
 
-            if(IsItemAvailable())
-        {
-            var priceElement = getPriceElement();
+    if (IsItemAvailable()) {
+        var priceElement = getPriceElement();
 
-            ;
-        
-            priceString = priceElement.innerText.replace("CDN$ ","");
-        
-        }
-   
+        ;
+
+        priceString = priceElement.innerText.replace("CDN$ ", "");
+
+    }
 
 
-  
+
+
 
     return Number(priceString);
 
 }
 
 
-function getElementByXPath(element, xPath){
-    
-    var headings = document.evaluate(xPath, element, null, XPathResult.ANY_TYPE, null );
+function getElementByXPath(element, xPath) {
+
+    var headings = document.evaluate(xPath, element, null, XPathResult.ANY_TYPE, null);
     var thisHeading = headings.iterateNext();
 
     return thisHeading;
@@ -200,6 +233,7 @@ function IsEligibleForPrime() {
 
 //Unavailable Message: B01HLYKBOM :available from these sellers. Fix this
 function IsItemAvailable() {
+
     var isItemAvailable = false;
     var doesAvailabilityElementExist = document.querySelectorAll("#availability").length || false;
 

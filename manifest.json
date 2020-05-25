@@ -22,13 +22,9 @@
       },
       {
         "matches": ["*://amazon.ca/*", "*://*.amazon.ca/*", "*://amazon.com/*", "*://*.amazon.com/*"],
-        "js": ["libraries/jquery.min.js", "amazon/amazon.js","libraries/custom.js"],
-        "run_at": "document_end"
-      },      {
-        "matches": ["*://amazon.ca/*", "*://*.amazon.ca/*", "*://amazon.com/*", "*://*.amazon.com/*"],
-        "js": ["libraries/jquery.min.js", "amazon/amazon_captcha.js","libraries/custom.js"],
-        "run_at": "document_end"
-      },
+        "js": ["libraries/jquery.min.js","libraries/custom.js", "amazon/amazon.js"],
+        "run_at": "document_start"
+      }, 
       {
         "matches": ["*://offer.ebay.ca/ws/eBayISAPI.dll*"],
         "js": ["libraries/jquery.min.js", "ebay/ebay_end_item.js","libraries/custom.js"],

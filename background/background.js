@@ -111,19 +111,17 @@ function startNextPage()
 
 
 
-            console.log("Starting listner for check page ");
-
+            
             let messageListener = request => {
                 chrome.runtime.onMessage.removeListener(messageListener);
 
                 if (request.type === 'from_ebay_list' && request.command === "fetched_data_proceed") {
 
-                    console.log("fetched_data_proceed ");
                     resolve();
                 }
 
                 if (request.type === 'from_ebay_list' && request.command === "restart_ebay_page") {
-                    console.log("restart_ebay_page on BG");
+ 
 
                     //close browser,
                     chrome.tabs.remove(main_tab, () => {
@@ -273,7 +271,7 @@ function checkSKU(item) {
 
             let amazon_tab_id = tab.id;
 
-            chrome.tabs.executeScript(amazon_tab_id, { code: 'let checkThisProduct = true, asin = "' + sku + '";', runAt: 'document_end' }, () => {
+            chrome.tabs.executeScript(amazon_tab_id, { code: 'let checkThisProduct = true, asin = "' + sku + '";', runAt: 'document_start' }, () => {
 
                 //add check that right asin is being checked
                 let messageListener = function (request) {
@@ -282,10 +280,13 @@ function checkSKU(item) {
                     if (request.type === 'from_amazon' && request.command === "fetched_data" && amazonItemUrl.toLowerCase().replace(/(\s\s\s*)/g, ' ') === request.amazonItemData.amazonItemUrl.toLowerCase().replace(/(\s\s\s*)/g, ' ')) {
                         amazonItemData = request.amazonItemData;
 
+  
+
                         chrome.tabs.remove(amazon_tab_id, () => {
 
 
-
+                            /* 
+                            
                             console.log("Amazon Price: " + amazonItemData.price);
                             console.log("Ebay Price: " + ebayPrice);
                             if (ebayPrice === amazonItemData.price) {
@@ -299,6 +300,7 @@ function checkSKU(item) {
                             if (ebayPrice > amazonItemData.price) {
                                 console.log("Ebay Price is more then Amazon");
                             }
+                            */
 
 
 
@@ -342,7 +344,7 @@ function checkSKU(item) {
                                     new_quantity = 1;
                                     //Set Item Quantity
                                     if (ebayPrice < amazonItemData.price) {
-                                        console.log("Ebay Price is less then Amazon");
+                                       // console.log("Ebay Price is less then Amazon");
                                         var newPrice = (amazonItemData.price * 1.20).toFixed(2);
                                         setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
                                     } else {
@@ -376,7 +378,7 @@ function checkSKU(item) {
                                     //setItemPrice(itemNumber,amazonItemData.price*1.13).then(() => resolve());
 
                                     if (ebayPrice < amazonItemData.price) {
-                                        console.log("Ebay Price is less then Amazon");
+                                      //  console.log("Ebay Price is less then Amazon");
                                         var newPrice = (amazonItemData.price * 1.20).toFixed(2);
 
                                         setItemPrice(itemNumber, newPrice).then(() => resolve());
