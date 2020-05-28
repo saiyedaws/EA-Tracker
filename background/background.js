@@ -8,7 +8,7 @@ let popup_port,
     total_active_listings,
     page_items_count = 0,
     iteration_items_count = 0,
-    totalPageNumbe = 0,
+    totalPageNumber = 0,
     currentPageNumber = 0,
     endListing_tab,
     didItemFailToUpdate = false;
@@ -171,7 +171,8 @@ function startNextPage()
 
 
 
-async function checkSKUList(list) {
+async function checkSKUList(list) 
+{
 
 
     total_page_items = list.length;
@@ -212,7 +213,8 @@ async function checkSKUList(list) {
 
 
 
-function checkNextPage() {
+function checkNextPage() 
+{
     return new Promise(resolve => {
 
 
