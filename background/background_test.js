@@ -27,6 +27,16 @@ chrome.extension.onConnect.addListener(port => {
                 testSetPrice(request.itemNumber, request.price);
             }
 
+                        // Checks the form submission
+            if (request.type === 'from_popup' && request.command === "print_amazon_data") 
+            {
+                console.log("Debug Mode - print_amazon_data");
+                printAmazonData();
+               
+            }
+
+            
+
 
 
 
@@ -39,7 +49,19 @@ chrome.extension.onConnect.addListener(port => {
 });
 
 
+function printAmazonData()
+{
 
+    console.log("print_amazon_data");
+
+
+    amazon_port.postMessage({ 
+         from: "from_background_test",
+        type: "print_amazon_data"
+    });
+
+
+}
 
 async function testCheckSku(itemNumber) {
 

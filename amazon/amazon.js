@@ -1,7 +1,35 @@
+let bg_port = chrome.runtime.connect({ name: "amazon" });
+
+
+bg_port.onMessage.addListener((request) => 
+{
+
+    if(request.from === "from_background_test" && request.type === 'print_amazon_data') 
+    {
+        console.log("from_background_test");
+
+    }
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 setInterval(() => {
     console.log("Time out!");
     location.reload();
-}, 60000);
+}, 90000);
 
 if (/complete|interactive|loaded/.test(document.readyState)) {
     // In case the document has finished parsing, document's readyState will
@@ -28,31 +56,38 @@ function startPage() {
     let bg_port = chrome.runtime.connect({ name: "amazon" });
 
 
-    if (document.title === "Robot Check") {
-        console.log("Robot Check Doc Found");
+    if (document.title === "Robot Check") 
+    {
+        setTimeout(() => 
+        {
+            console.log("Robot Check Doc Found");
 
-        var captchaImgUrl = document.querySelectorAll(".a-text-center.a-row")[1].querySelectorAll("img")[0].getAttribute("src");
-        bg_port.postMessage({ type: 'amazon_captcha_found', captchaImgUrl: captchaImgUrl });
+            var captchaImgUrl = document.querySelectorAll(".a-text-center.a-row")[1].querySelectorAll("img")[0].getAttribute("src");
+            bg_port.postMessage({ type: 'amazon_captcha_found', captchaImgUrl: captchaImgUrl });
+    
+    
+            bg_port.onMessage.addListener((request) => {
+    
+                if (request.type === 'amazon_captcha_solved') {
+                    console.log("code: " + request.captchaKey)
+    
+                    var typeCaptchaTextBox = document.getElementById("captchacharacters");
+                    typeCaptchaTextBox.value = request.captchaKey;
+    
+                    setTimeout(() => {
+                        document.querySelectorAll('button[type="submit"]')[0].click();
+                    }, 2000);
+    
+    
+                }
+    
+    
+    
+            });
+            
+        }, 10000);
 
 
-        bg_port.onMessage.addListener((request) => {
-
-            if (request.type === 'amazon_captcha_solved') {
-                console.log("code: " + request.captchaKey)
-
-                var typeCaptchaTextBox = document.getElementById("captchacharacters");
-                typeCaptchaTextBox.value = request.captchaKey;
-
-                setTimeout(() => {
-                    document.querySelectorAll('button[type="submit"]')[0].click();
-                }, 2000);
-
-
-            }
-
-
-
-        });
 
 
 
@@ -115,6 +150,7 @@ async function scrapeAmazon() {
 
 }
 
+//https://www.amazon.ca/dp/B072DWYBL7
 
 function checkIfPriceExists() {
     return new Promise(resolve => {
@@ -138,11 +174,7 @@ function checkIfPriceExists() {
 
             }
         } catch (error) {
-
-            setTimeout(() => {
-                console.log(error);
-                location.reload();
-            }, 60000);
+            console.log(error);
 
         }
 
@@ -156,6 +188,9 @@ function checkIfPriceExists() {
 
 function getPriceElement() {
 
+
+
+
     var priceElement =
         document.getElementById("price_inside_buybox") ||
         document.getElementById("newBuyBoxPrice") ||
@@ -165,6 +200,18 @@ function getPriceElement() {
         document.getElementById("buyNew_noncbb") ||
         document.getElementById("priceblock_dealprice")
         ;
+
+
+    //Elements with weird options
+    if(document.querySelectorAll("#buybox-see-all-buying-choices-announce").length > 0)
+    {
+        var priceElement = document.createElement("div");
+        priceElement.innerText = "-99999.00"
+
+        
+    }    
+
+
 
     return priceElement;
 

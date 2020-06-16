@@ -36,7 +36,8 @@ chrome.extension.onConnect.addListener(port => {
         popup_port.onDisconnect.addListener(() => popup_port = null);
     }
 
-    if (port.name === 'ebay_list') {
+    if (port.name === 'ebay_list') 
+    {
 
         ebay_port = port;
 
@@ -64,6 +65,13 @@ chrome.extension.onConnect.addListener(port => {
     }
 
 
+
+    if (port.name === 'amazon') 
+    {
+
+        amazon_port = port;
+
+    }
 
 
 

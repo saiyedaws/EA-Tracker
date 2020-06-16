@@ -80,7 +80,17 @@ document.getElementById("amazon_form").addEventListener("submit", function(e) {
     e.preventDefault();
 
     console.log("Amazon Button Start");
-    bg_port.postMessage({ type: "captcha" });
+
+
+    bg_port.postMessage(
+        { 
+            type: "from_popup",
+            command:"print_amazon_data",
+
+        
+        });
+
+
 });
 
 
