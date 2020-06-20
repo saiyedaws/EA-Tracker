@@ -26,3 +26,6 @@ rm -rf EA-Tracker
 git clone https://github.com/saiyedaws/EA-Tracker
 
 echo done Updating/Downloading EA-Tracker
+
+echo to have captcha solver always running enter code below and replace containerID
+echo docker update --restart=always 4362fa682ffb
