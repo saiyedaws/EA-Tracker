@@ -14,7 +14,8 @@ let popup_port,
     didItemFailToUpdate = false;
 
 // Checks connections and waits the popup
-chrome.extension.onConnect.addListener(port => {
+chrome.extension.onConnect.addListener(port => 
+    {
 
     // Checks the connection source
     if (port.name === 'popup') {
@@ -25,7 +26,8 @@ chrome.extension.onConnect.addListener(port => {
         popup_port.onMessage.addListener(request => {
 
             // Checks the form submission
-            if (request.type === 'start') {
+            if (request.type === 'start') 
+            {
                 //startProcess();
 
                 pagination_offset = pagination_offset + (request.pgNumber - 1) * 50
@@ -42,9 +44,11 @@ chrome.extension.onConnect.addListener(port => {
         ebay_port = port;
 
         // Begins to listen messages from Ebay
-        ebay_port.onMessage.addListener(request => {
+        ebay_port.onMessage.addListener(request => 
+            {
 
-            if (request.type === 'SKU_codes') {
+            if (request.type === 'SKU_codes') 
+            {
                 checkSKUList(request.sku_list);
             }
 
