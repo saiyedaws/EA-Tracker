@@ -360,7 +360,10 @@ function checkSKU(item) {
                                     if (ebayPrice < amazonItemData.price) {
                                        // console.log("Ebay Price is less then Amazon");
                                         var newPrice = (amazonItemData.price * 1.20).toFixed(2);
-                                        setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
+                                       // setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
+
+
+                                        setItemQuantity(itemNumber, new_quantity).then(() => resolve());
                                     } else {
                                         setItemQuantity(itemNumber, new_quantity).then(() => resolve());
                                     }
@@ -395,7 +398,9 @@ function checkSKU(item) {
                                       //  console.log("Ebay Price is less then Amazon");
                                         var newPrice = (amazonItemData.price * 1.20).toFixed(2);
 
-                                        setItemPrice(itemNumber, newPrice).then(() => resolve());
+                                       // setItemPrice(itemNumber, newPrice).then(() => resolve());
+
+                                        resolve();
                                     } else {
                                         resolve();
                                     }
