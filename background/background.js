@@ -324,6 +324,7 @@ function checkSKU(item) {
 
 
                             var new_quantity = -1;
+                            var newPrice = (amazonItemData.price * 1.11).toFixed(2);
 
                             if (!amazonItemData.isPageCorrectlyOpened) {
                                 var errorMessage = "ItemNumber "+itemNumber+ ": Amazon SKU Didnt load, Please Check/Update SKU";
@@ -359,8 +360,8 @@ function checkSKU(item) {
                                     //Set Item Quantity
                                     if (ebayPrice < amazonItemData.price) {
                                        // console.log("Ebay Price is less then Amazon");
-                                        var newPrice = (amazonItemData.price * 1.20).toFixed(2);
-                                       // setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
+                                      
+                                        setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
 
 
                                         setItemQuantity(itemNumber, new_quantity).then(() => resolve());
@@ -369,7 +370,7 @@ function checkSKU(item) {
                                     }
 
 
-                                    //setItemQuantity(itemNumber, new_quantity).then(() => resolve());
+                                    
 
                                 }
 
@@ -396,9 +397,9 @@ function checkSKU(item) {
 
                                     if (ebayPrice < amazonItemData.price) {
                                       //  console.log("Ebay Price is less then Amazon");
-                                        var newPrice = (amazonItemData.price * 1.20).toFixed(2);
+                                      
 
-                                       // setItemPrice(itemNumber, newPrice).then(() => resolve());
+                                        setItemPrice(itemNumber, newPrice).then(() => resolve());
 
                                         resolve();
                                     } else {
