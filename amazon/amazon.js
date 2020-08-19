@@ -283,7 +283,7 @@ function IsEligibleForPrime()
 
 
         
-            waitLimitedTimeUntilInnerTextExists(".a-truncate-full.a-offscreen", 0, (element)=>
+            waitLimitedTimeUntilInnerTextExists("#buybox-tabular .a-truncate-full.a-offscreen", 0, (element)=>
             {
                 console.log("resolving begin");
 
