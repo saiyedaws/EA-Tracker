@@ -268,6 +268,8 @@ function checkNextPage()
 
 function checkSKU(item) {
 
+    console.log(item);
+
     var sku = atob(item.SKU);
     var quantity = item.quantity;
     var itemNumber = item.itemNumber;
@@ -294,6 +296,7 @@ function checkSKU(item) {
                     if (request.type === 'from_amazon' && request.command === "fetched_data" && amazonItemUrl.toLowerCase().replace(/(\s\s\s*)/g, ' ') === request.amazonItemData.amazonItemUrl.toLowerCase().replace(/(\s\s\s*)/g, ' ')) {
                         amazonItemData = request.amazonItemData;
 
+                        console.log(amazonItemData);
   
 
                         chrome.tabs.remove(amazon_tab_id, () => {
@@ -355,13 +358,13 @@ function checkSKU(item) {
 
 
                                 if (amazonItemData.isItemAvailable && amazonItemData.isEligibleForPrime && quantity === 0) {
-                                    // console.log("Item Available, Set New Quantity.");
+                                     console.log("Item Available, Set New Quantity.");
                                     new_quantity = 1;
                                     //Set Item Quantity
                                     if (ebayPrice < amazonItemData.price) {
                                        // console.log("Ebay Price is less then Amazon");
                                       
-                                        setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
+                                      //  setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
 
 
                                         setItemQuantity(itemNumber, new_quantity).then(() => resolve());
@@ -399,7 +402,7 @@ function checkSKU(item) {
                                       //  console.log("Ebay Price is less then Amazon");
                                       
 
-                                        setItemPrice(itemNumber, newPrice).then(() => resolve());
+                                        //setItemPrice(itemNumber, newPrice).then(() => resolve());
 
                                         resolve();
                                     } else {

@@ -120,17 +120,19 @@ async function scrapeAmazon() {
     //await waits for completion before next function starts
     await checkIfPriceExists();
 
+    var isPrimeEligible = await IsEligibleForPrime();
 
     var amazonItemData =
     {
         isPageCorrectlyOpened: IsPageCorrectlyOpened(),
         isItemAvailable: IsItemAvailable(),
-        isEligibleForPrime: IsEligibleForPrime(),
+
         availabilityMessage: GetAvailabilityMessage(),
         isItemDeliveryExtended: isItemDeliveryExtended(),
         deliveryTimeMessage: getDeliveryTimeMessage(),
         amazonItemUrl: getCurrentUrl(),
-        price: getAmazonPrice()
+        price: getAmazonPrice(),
+        isEligibleForPrime: isPrimeEligible,
 
     }
 
@@ -259,21 +261,50 @@ function getCurrentUrl() {
     return window.location.href;
 }
 
-function IsEligibleForPrime() {
+function IsEligibleForPrime() 
+{
     //Looking for:
     //sold by anboer and fulfilled by amazon.
     //ships from and sold by amazon.ca
 
-    var isItemFullfilledByAmazon = false;
-    var doesMerchantInfoElementExist = document.querySelectorAll("#merchant-info").length;
+    function callback(element)
+    {
+        var isItemFullfilledByAmazon = false;
+        isItemFullfilledByAmazon = element.innerText.toLowerCase().includes("amazon");
 
-    if (doesMerchantInfoElementExist) {
-        var amazonMerchantInfo = document.querySelectorAll("#merchant-info")[0].innerText.toLowerCase();
-        var isItemFullfilledByAmazon = amazonMerchantInfo.includes("amazon");
+
+        console.log("isItemFullfilledByAmazon: "+isItemFullfilledByAmazon);
+        return isItemFullfilledByAmazon;
     }
 
 
-    return isItemFullfilledByAmazon;
+    return new Promise(resolve=>{
+
+
+
+        
+            waitLimitedTimeUntilInnerTextExists(".a-truncate-full.a-offscreen", 0, (element)=>
+            {
+                var isItemFullfilledByAmazon = false;
+                isItemFullfilledByAmazon = element.innerText.toLowerCase().includes("amazon");
+        
+        
+                console.log("isItemFullfilledByAmazon: "+isItemFullfilledByAmazon);
+                resolve(isItemFullfilledByAmazon);
+        });
+        
+     
+
+        
+    });
+
+
+
+
+
+   
+
+    //return waitLimitedTimeUntilInnerTextExists(".a-truncate-full.a-offscreen", callback, 0);
 }
 
 
