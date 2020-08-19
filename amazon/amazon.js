@@ -296,7 +296,13 @@ function IsEligibleForPrime()
                     resolve(isItemFullfilledByAmazon);
                 }
                 else{
-                    resolve(false);
+                    var isItemFullfilledByAmazon = false;
+                    var doesMerchantInfoElementExist = document.querySelectorAll("#merchant-info").length;
+                    if (doesMerchantInfoElementExist) {
+                        var amazonMerchantInfo = document.querySelectorAll("#merchant-info")[0].innerText.toLowerCase();
+                        var isItemFullfilledByAmazon = amazonMerchantInfo.includes("amazon");
+                    }
+                    resolve(isItemFullfilledByAmazon);
                 }
         });
         
