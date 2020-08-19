@@ -35,7 +35,7 @@ var waitLimitedTimeUntilInnerTextExists = (selector, loopNumber, callback) =>
         if(loopNumber === 10)
         {
 
-            return null;
+            return callback(null);
         }
         
     

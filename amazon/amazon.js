@@ -285,12 +285,19 @@ function IsEligibleForPrime()
         
             waitLimitedTimeUntilInnerTextExists(".a-truncate-full.a-offscreen", 0, (element)=>
             {
-                var isItemFullfilledByAmazon = false;
-                isItemFullfilledByAmazon = element.innerText.toLowerCase().includes("amazon");
-        
-        
-                console.log("isItemFullfilledByAmazon: "+isItemFullfilledByAmazon);
-                resolve(isItemFullfilledByAmazon);
+                console.log("resolving begin");
+
+                if(element){
+                    var isItemFullfilledByAmazon = false;
+                    isItemFullfilledByAmazon = element.innerText.toLowerCase().includes("amazon");
+            
+            
+                    console.log("isItemFullfilledByAmazon: "+isItemFullfilledByAmazon);
+                    resolve(isItemFullfilledByAmazon);
+                }
+                else{
+                    resolve(false);
+                }
         });
         
      
