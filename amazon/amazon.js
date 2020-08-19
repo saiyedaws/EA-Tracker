@@ -283,7 +283,7 @@ function IsEligibleForPrime()
 
 
         
-            waitLimitedTimeUntilInnerTextExists("#buybox-tabular .a-truncate-full.a-offscreen", 0, (element)=>
+        waitUnitEitherElementExists("#buybox-tabular .a-truncate-full.a-offscreen","#merchant-info", 0, (element)=>
             {
                 console.log("resolving begin");
 
@@ -296,13 +296,8 @@ function IsEligibleForPrime()
                     resolve(isItemFullfilledByAmazon);
                 }
                 else{
-                    var isItemFullfilledByAmazon = false;
-                    var doesMerchantInfoElementExist = document.querySelectorAll("#merchant-info").length;
-                    if (doesMerchantInfoElementExist) {
-                        var amazonMerchantInfo = document.querySelectorAll("#merchant-info")[0].innerText.toLowerCase();
-                        var isItemFullfilledByAmazon = amazonMerchantInfo.includes("amazon");
-                    }
-                    resolve(isItemFullfilledByAmazon);
+                
+                    resolve(false);
                 }
         });
         
