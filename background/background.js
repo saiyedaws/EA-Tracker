@@ -329,14 +329,17 @@ function checkSKU(item) {
                             var new_quantity = -1;
                             var newPrice = (amazonItemData.price * 1.11).toFixed(2);
 
-                            if (!amazonItemData.isPageCorrectlyOpened) {
+                            
+                            if (!amazonItemData.isPageCorrectlyOpened) 
+                            {
                                 var errorMessage = "ItemNumber "+itemNumber+ ": Amazon SKU Didnt load, Please Check/Update SKU";
                                 console.log(errorMessage);
 
                                 new_quantity = 0;
 
                                 if (quantity > 0) {
-                                    setItemQuantity(itemNumber, new_quantity).then(() => resolve());
+                                   // setItemQuantity(itemNumber, new_quantity).then(() => resolve());
+                                   resolve();
                                 } else {
                                     resolve();
                                 }
