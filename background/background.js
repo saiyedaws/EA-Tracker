@@ -268,7 +268,7 @@ function checkNextPage()
 
 function checkSKU(item) {
 
-    console.log(item);
+    //console.log(item);
 
     var sku = atob(item.SKU);
     var quantity = item.quantity;
@@ -296,7 +296,7 @@ function checkSKU(item) {
                     if (request.type === 'from_amazon' && request.command === "fetched_data" && amazonItemUrl.toLowerCase().replace(/(\s\s\s*)/g, ' ') === request.amazonItemData.amazonItemUrl.toLowerCase().replace(/(\s\s\s*)/g, ' ')) {
                         amazonItemData = request.amazonItemData;
 
-                        console.log(amazonItemData);
+                        //console.log(amazonItemData);
   
 
                         chrome.tabs.remove(amazon_tab_id, () => {
