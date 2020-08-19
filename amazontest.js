@@ -25,5 +25,5 @@ if (doesMerchantInfoElementExist) {
 console.log(isItemFullfilledByAmazon);
 
 
-var elm = document.querySelector("#buybox-tabular .a-truncate-full.a-offscreen");
+var elm = document.querySelector("#buybox-tabular .a-truncate-full");
 console.log(elm);

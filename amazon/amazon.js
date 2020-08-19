@@ -283,7 +283,7 @@ function IsEligibleForPrime()
 
 
         
-        waitUnitEitherElementExists("#buybox-tabular .a-truncate-full.a-offscreen","#merchant-info", 0, (element)=>
+        waitUnitEitherElementExists("#buybox-tabular .a-truncate-full","#merchant-info", 0, (element)=>
             {
                 console.log("resolving begin");
 
