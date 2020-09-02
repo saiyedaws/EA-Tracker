@@ -208,6 +208,7 @@ async function checkSKUList(list)
             continue;
         }
 
+
         await checkSKU(item);
 
         //await checkToEndItemListing(item.itemNumber);
@@ -327,7 +328,7 @@ function checkSKU(item) {
 
 
                             var new_quantity = -1;
-                            var newPrice = (amazonItemData.price * 1.11).toFixed(2);
+                            var newPrice = (amazonItemData.price * 1.4).toFixed(2);
 
                             
                             if (!amazonItemData.isPageCorrectlyOpened) 
@@ -364,13 +365,14 @@ function checkSKU(item) {
                                      console.log("Item Available, Set New Quantity.");
                                     new_quantity = 1;
                                     //Set Item Quantity
-                                    if (ebayPrice < amazonItemData.price) {
-                                       // console.log("Ebay Price is less then Amazon");
+
+                                    if (ebayPrice < amazonItemData.price*1.3) {
+                                        console.log("Ebay Price:"+ebayPrice+" is less then Amazon Price: "+amazonItemData.price + " ,Changing Price Now");
                                       
-                                      //  setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
+                                        setItemPrice(itemNumber, newPrice).then(() => setItemQuantity(itemNumber, new_quantity)).then(() => resolve());
 
 
-                                        setItemQuantity(itemNumber, new_quantity).then(() => resolve());
+                                        //setItemQuantity(itemNumber, new_quantity).then(() => resolve());
                                     } else {
                                         setItemQuantity(itemNumber, new_quantity).then(() => resolve());
                                     }
@@ -401,13 +403,14 @@ function checkSKU(item) {
                                     // setPrice
                                     //setItemPrice(itemNumber,amazonItemData.price*1.13).then(() => resolve());
 
-                                    if (ebayPrice < amazonItemData.price) {
+                                    if (ebayPrice < amazonItemData.price*1.3) {
+                                        console.log("Ebay Price:"+ebayPrice+" is less then Amazon Price: "+amazonItemData.price + " ,Changing Price Now");
                                       //  console.log("Ebay Price is less then Amazon");
                                       
 
-                                        //setItemPrice(itemNumber, newPrice).then(() => resolve());
+                                        setItemPrice(itemNumber, newPrice).then(() => resolve());
 
-                                        resolve();
+                                       // resolve();
                                     } else {
                                         resolve();
                                     }
